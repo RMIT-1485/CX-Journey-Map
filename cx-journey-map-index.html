@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MKTG1485 Customer Journey Map — Week 4</title>
+  <style>
+    :root{
+      --rmit-red:#ba372a;
+      --ink:#0b0c0c;
+      --slate:#2f3540;
+      --grey-1:#f6f6f6;
+      --grey-2:#e9ecef;
+      --grey-3:#d5d5d5;
+      --accent:#004c97;
+      --ok:#1b873f;
+      --warn:#e3a008;
+      --bad:#c92a2a;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:#fff;
+      line-height:1.4;
+    }
+    /* Header */
+    .brandbar{
+      background:linear-gradient(90deg,var(--rmit-red),#c9473c);
+      color:#fff;
+      padding:18px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brandbar .left{
+      display:flex;align-items:center;gap:14px;
+    }
+    .mark{
+      width:40px;height:40px;border-radius:8px;background:#fff;
+      display:grid;place-items:center;
+      color:var(--rmit-red);font-weight:800;font-size:18px;
+    }
+    h1{
+      margin:0;font-size:20px;letter-spacing:.2px;
+    }
+    .brandbar .right button{
+      background:#fff;border:none;border-radius:999px;padding:8px 14px;
+      color:var(--rmit-red);font-weight:700;cursor:pointer;
+    }
+    /* Container */
+    .wrap{max-width:1200px;margin:0 auto;padding:20px;}
+    .card{
+      background:#fff;border:1px solid var(--grey-3);border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,.06);
+      padding:18px;margin-bottom:18px;
+    }
+    .card h2{margin:0 0 12px 0;color:var(--rmit-red);font-size:18px;}
+    .grid-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .grid-three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    label{font-size:12px;color:var(--slate);display:block;margin-bottom:6px;}
+    input[type="text"], input[type="date"], textarea, select{
+      width:100%;padding:10px;border:1px solid var(--grey-3);border-radius:10px;background:#fff;
+      font-size:14px;
+    }
+    textarea{min-height:80px;resize:vertical;}
+    .hint{font-size:12px;color:#555;margin-top:6px;}
+    /* Stage toolbar */
+    .tools{display:flex;gap:8px;flex-wrap:wrap;}
+    .btn{
+      border:1px solid var(--grey-3);background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;
+      font-weight:600;
+    }
+    .btn.primary{background:var(--rmit-red);color:#fff;border-color:var(--rmit-red);}
+    .btn.ghost{background:transparent;}
+    .btn:disabled{opacity:.6;cursor:not-allowed;}
+    /* Journey table */
+    .journey{
+      width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--grey-3);
+      border-radius:14px;overflow:hidden;background:#fff;
+    }
+    .journey thead th{
+      background:var(--grey-2);padding:10px;border-bottom:1px solid var(--grey-3);
+      font-size:13px;text-align:left;
+    }
+    .journey thead th.stage{
+      min-width:160px;
+    }
+    .journey tbody th{
+      width:200px;background:#fafafa;border-right:1px solid var(--grey-3);
+      padding:10px;font-size:13px;text-align:left;
+      position:sticky;left:0;z-index:1;
+    }
+    .journey td{
+      border-left:1px solid var(--grey-3);
+      border-bottom:1px solid var(--grey-3);
+      padding:0;
+      vertical-align:top;
+    }
+    .cell{
+      padding:8px;
+      min-height:90px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .cell textarea{min-height:90px;border:none;outline:none;}
+    .stage-head{
+      display:flex;align-items:center;gap:8px;justify-content:space-between;
+      padding-right:8px;
+    }
+    .stage-name{
+      width:100%;border:1px solid var(--grey-3);border-radius:10px;padding:8px;background:#fff;
+      font-weight:700;
+    }
+    .stage-actions button{
+      border:none;background:transparent;color:var(--rmit-red);cursor:pointer;font-weight:700;
+    }
+    .pill{
+      display:inline-block;background:var(--grey-1);border:1px solid var(--grey-3);padding:3px 8px;border-radius:999px;
+      font-size:12px;
+    }
+    .emotion{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    }
+    .emotion input[type="range"]{width:140px;}
+    .legend{display:flex;gap:10px;font-size:12px;color:#444;margin-top:6px;}
+    .legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle;}
+    .dot.good{background:var(--ok);} .dot.mid{background:var(--warn);} .dot.bad{background:var(--bad);}
+    /* Footer */
+    footer{margin:26px 0 40px 0;text-align:center;color:#666;font-size:12px;}
+    /* Print */
+    @media print{
+      .brandbar,.tools,.savebar{display:none !important;}
+      .card{box-shadow:none;border-color:#bbb;}
+      a[href^="http"]::after{content:"";}
+      body{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+      .journey thead th{background:#e9ecef !important;}
+      .journey tbody th{background:#fafafa !important;}
+      .wrap{padding:0 10px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="brandbar" role="banner">
+    <div class="left">
+      <div class="mark" aria-hidden="true">RU</div>
+      <div>
+        <h1>MKTG1485 Customer Experience Strategy — Journey Map</h1>
+        <div style="font-size:12px;opacity:.9">Week 4 template. Fill in and print to PDF.</div>
+      </div>
+    </div>
+    <div class="right">
+      <button onclick="window.print()" title="Print or save to PDF">Print</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="card" aria-labelledby="meta-title">
+      <h2 id="meta-title">Project details</h2>
+      <div class="grid-three">
+        <div>
+          <label for="course">Course</label>
+          <input id="course" type="text" value="MKTG1485 CX Strategy" />
+        </div>
+        <div>
+          <label for="team">Team or student name</label>
+          <input id="team" type="text" placeholder="e.g. Team 7 — Journey Ninjas" />
+        </div>
+        <div>
+          <label for="date">Date</label>
+          <input id="date" type="date" />
+        </div>
+      </div>
+      <div class="grid-two" style="margin-top:12px;">
+        <div>
+          <label for="brand">Organisation or brand</label>
+          <input id="brand" type="text" placeholder="e.g. Darrell Lea" />
+        </div>
+        <div>
+          <label for="persona">Target persona</label>
+          <input id="persona" type="text" placeholder="e.g. Health‑conscious parent" />
+        </div>
+      </div>
+      <p class="hint">Hint: use your Week 4 persona as the customer lens for every stage.</p>
+    </section>
+
+    <section class="card" aria-labelledby="map-title">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <h2 id="map-title">Journey map</h2>
+        <div class="tools" role="toolbar" aria-label="Journey tools">
+          <button class="btn" onclick="addStage()">Add stage</button>
+          <button class="btn ghost" onclick="resetStages()">Reset</button>
+          <button class="btn primary" onclick="saveWork()">Save</button>
+          <button class="btn" onclick="loadWork()">Load</button>
+          <button class="btn ghost" onclick="clearWork()">Clear saved</button>
+        </div>
+      </div>
+
+      <table class="journey" id="journey" role="table" aria-label="Customer journey map">
+        <thead>
+          <tr id="headRow">
+            <th class="stage">Lanes</th>
+          </tr>
+          <tr id="stageRow">
+            <th class="stage" aria-hidden="true"></th>
+          </tr>
+        </thead>
+        <tbody id="body">
+          <!-- Rows populated by JS -->
+        </tbody>
+      </table>
+
+      <div class="legend" aria-hidden="true">
+        <span><span class="dot bad"></span>Low emotion</span>
+        <span><span class="dot mid"></span>Neutral</span>
+        <span><span class="dot good"></span>High emotion</span>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="tips-title">
+      <h2 id="tips-title">Marking cues</h2>
+      <ul>
+        <li>Every claim should be linked to evidence. Add brief sources in the cells where relevant.</li>
+        <li>Keep a single story through the stages. Show how pain points turn into opportunities.</li>
+        <li>Ensure your opportunities line up with Assessment 1 or the live brief where applicable.</li>
+      </ul>
+    </section>
+
+    <footer>&copy; 2025 RMIT University · MKTG1485 CX Strategy</footer>
+  </div>
+
+<script>
+  // Default stages and lanes
+  const defaultStages = ["Awareness","Consideration","Purchase","Onboarding","Use","Support","Loyalty"];
+  const lanes = [
+    { key:"goals", label:"Customer goals" },
+    { key:"actions", label:"Customer actions" },
+    { key:"touch", label:"Touchpoints & channels" },
+    { key:"emotion", label:"Emotion score" },
+    { key:"pain", label:"Pain points" },
+    { key:"opps", label:"Opportunities" },
+    { key:"metrics", label:"Success metrics" }
+  ];
+
+  let stages = [...defaultStages];
+
+  function makeEl(tag, attrs={}, html=""){
+    const el = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v])=>{
+      if(k==="class") el.className=v;
+      else if(k==="for") el.htmlFor=v;
+      else el.setAttribute(k,v);
+    });
+    if(html) el.innerHTML = html;
+    return el;
+  }
+
+  function buildTable(){
+    const headRow = document.getElementById("headRow");
+    const stageRow = document.getElementById("stageRow");
+    const body = document.getElementById("body");
+    headRow.innerHTML = '<th class="stage">Lanes</th>';
+    stageRow.innerHTML = '<th class="stage" aria-hidden="true"></th>';
+    body.innerHTML = "";
+
+    // Column headers
+    stages.forEach((s, idx)=>{
+      const th = makeEl("th",{}, "");
+      const wrap = makeEl("div",{class:"stage-head"});
+      const input = makeEl("input",{class:"stage-name","data-stage-idx":idx,type:"text",value:s,ariaLabel:`Stage name ${idx+1}`});
+      input.addEventListener("input", e => { stages[idx] = e.target.value; });
+      const actions = makeEl("div",{class:"stage-actions"});
+      const del = makeEl("button",{title:"Remove stage","data-remove":idx},"Remove");
+      del.addEventListener("click", ()=> removeStage(idx));
+      actions.appendChild(del);
+      wrap.appendChild(input);
+      wrap.appendChild(actions);
+      th.appendChild(wrap);
+      headRow.appendChild(th);
+
+      // second header row for labels
+      const th2 = makeEl("th",{}, `<span class="pill">Stage ${idx+1}</span>`);
+      stageRow.appendChild(th2);
+    });
+
+    // Body rows by lane
+    lanes.forEach(l => {
+      const tr = makeEl("tr");
+      const laneTh = makeEl("th",{}, l.label);
+      tr.appendChild(laneTh);
+      stages.forEach((s, idx)=>{
+        const td = makeEl("td");
+        const cell = makeEl("div",{class:"cell"});
+        if(l.key === "emotion"){
+          const row = makeEl("div",{class:"emotion"});
+          const range = makeEl("input",{type:"range", min:"0", max:"10", value:"5", "data-key":`${idx}-emotion`});
+          const out = makeEl("span",{class:"pill"},"5 / 10");
+          range.addEventListener("input", e => {
+            out.textContent = `${e.target.value} / 10`;
+            out.style.background = emotionColour(+e.target.value);
+          });
+          out.style.background = emotionColour(5);
+          row.appendChild(range); row.appendChild(out);
+          cell.appendChild(row);
+          cell.appendChild(makeEl("textarea",{placeholder:"Why does the emotion rise or fall here?"}));
+        } else {
+          cell.appendChild(makeEl("textarea",{placeholder:placeholderFor(l.key)}));
+        }
+        td.appendChild(cell);
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  function placeholderFor(key){
+    switch(key){
+      case "goals": return "What is the customer trying to achieve at this stage?";
+      case "actions": return "What does the customer do, say, search or decide?";
+      case "touch": return "Key touchpoints and channels. Who or what do they interact with?";
+      case "pain": return "Friction, blockers, anxieties. Evidence snippets.";
+      case "opps": return "Quick wins and bigger fixes. Link to concept ideas.";
+      case "metrics": return "How will you measure success for this stage?";
+      default: return "Notes...";
+    }
+  }
+
+  function emotionColour(v){
+    if(v <= 3) return "rgba(201,42,42,.12)";
+    if(v <= 7) return "rgba(227,160,8,.15)";
+    return "rgba(27,135,63,.18)";
+  }
+
+  function addStage(){
+    stages.push("New stage");
+    buildTable();
+  }
+
+  function removeStage(i){
+    if(stages.length <= 1){ alert("At least one stage is required."); return; }
+    stages.splice(i,1);
+    buildTable();
+  }
+
+  function resetStages(){
+    stages = [...defaultStages];
+    buildTable();
+  }
+
+  function collect(){
+    const data = {
+      meta:{
+        course: document.getElementById('course').value,
+        team: document.getElementById('team').value,
+        brand: document.getElementById('brand').value,
+        persona: document.getElementById('persona').value,
+        date: document.getElementById('date').value
+      },
+      stages:[...stages],
+      cells:{}
+    };
+    // Grab all textareas by row and column order
+    const body = document.getElementById('body');
+    const rows = Array.from(body.querySelectorAll('tr'));
+    rows.forEach((row,rIdx)=>{
+      const tds = Array.from(row.querySelectorAll('td'));
+      tds.forEach((td,cIdx)=>{
+        const ta = td.querySelector('textarea');
+        const key = `${rIdx}-${cIdx}`;
+        data.cells[key] = ta ? ta.value : "";
+      });
+    });
+    return data;
+  }
+
+  function apply(data){
+    // meta
+    if(data.meta){
+      document.getElementById('course').value = data.meta.course || "";
+      document.getElementById('team').value = data.meta.team || "";
+      document.getElementById('brand').value = data.meta.brand || "";
+      document.getElementById('persona').value = data.meta.persona || "";
+      document.getElementById('date').value = data.meta.date || "";
+    }
+    // stages
+    if(Array.isArray(data.stages) && data.stages.length){
+      stages = data.stages;
+    }
+    buildTable();
+    // cells
+    const body = document.getElementById('body');
+    const rows = Array.from(body.querySelectorAll('tr'));
+    rows.forEach((row,rIdx)=>{
+      const tds = Array.from(row.querySelectorAll('td'));
+      tds.forEach((td,cIdx)=>{
+        const ta = td.querySelector('textarea');
+        const key = `${rIdx}-${cIdx}`;
+        if(ta && data.cells && Object.prototype.hasOwnProperty.call(data.cells,key)){
+          ta.value = data.cells[key];
+        }
+      });
+    });
+  }
+
+  function saveWork(){
+    const data = collect();
+    localStorage.setItem("cx_week4_journey", JSON.stringify(data));
+    flash("Saved to your browser");
+  }
+  function loadWork(){
+    const raw = localStorage.getItem("cx_week4_journey");
+    if(!raw){ flash("Nothing saved yet"); return; }
+    try{
+      const data = JSON.parse(raw);
+      apply(data);
+      flash("Loaded from your browser");
+    }catch(e){
+      alert("Could not load saved data");
+    }
+  }
+  function clearWork(){
+    localStorage.removeItem("cx_week4_journey");
+    flash("Cleared saved copy");
+  }
+
+  function flash(msg){
+    const n = document.createElement('div');
+    n.textContent = msg;
+    n.style.position='fixed'; n.style.bottom='20px'; n.style.left='50%';
+    n.style.transform='translateX(-50%)';
+    n.style.background='var(--ink)'; n.style.color='#fff';
+    n.style.padding='10px 14px'; n.style.borderRadius='999px';
+    n.style.boxShadow='0 6px 18px rgba(0,0,0,.18)';
+    n.style.zIndex='9999'; n.style.fontWeight='700';
+    document.body.appendChild(n);
+    setTimeout(()=>{ n.remove(); }, 1500);
+  }
+
+  // Initialise
+  buildTable();
+</script>
+</body>
+</html>
