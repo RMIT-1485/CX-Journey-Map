@@ -2,338 +2,359 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Customer Journey Map – 10 x 8 Template</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MKTG1485 — Customer Journey Form</title>
 <style>
   :root{
-    --brand:#ba372a;
-    --ink:#0d1b4c;
-    --muted:#f6f6f6;
+    --rmit-blue:#0d1b4c;
+    --rmit-red:#ba372a;
+    --rmit-grey:#f6f6f6;
     --line:#e6e6e6;
+    --text:#1f2937;
   }
-  body{
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    margin: 24px;
-    color:#222;
-    line-height:1.35;
+  html,body{margin:0;padding:0;background:#fff;color:var(--text);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;}
+  .wrap{max-width:1200px;margin:28px auto;padding:0 16px 40px;}
+  h1{font-size:24px;color:var(--rmit-red);margin:0 0 12px 0;}
+  .note{background:var(--rmit-grey);padding:14px 16px;border-radius:10px;margin:12px 0 20px 0;}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px;}
+  button,.btn{background:var(--rmit-blue);color:#fff;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}
+  button.secondary{background:#44506b}
+  button.ghost{background:#fff;color:var(--rmit-blue);border:1px solid var(--rmit-blue)}
+  input[type="text"],input[type="date"],textarea,select{
+    width:100%;box-sizing:border-box;border:1px solid #cfcfcf;border-radius:8px;padding:10px 12px;font:inherit;background:#fff
   }
-  h1,h2,h3{ color: var(--brand); margin:0 0 8px; }
-  .lede{ background:var(--muted); padding:16px; border-radius:12px; margin: 12px 0 20px;}
-  .bar{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:8px 0 18px;}
-  .bar .spacer{ flex:1; }
-  button{
-    border:1px solid var(--brand);
-    background:#fff;
-    color:var(--brand);
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-  }
-  button.primary{ background:var(--brand); color:#fff; border-color:var(--brand); }
-  button:disabled{ opacity:.6; cursor:not-allowed; }
-  .hint{ font-size:.92rem; color:#555; margin:8px 0 16px;}
-  .grid-note{ font-size:.9rem; color:#444; margin:6px 0 12px;}
-  table{
-    width:100%;
-    border-collapse:collapse;
-    table-layout:fixed;
-    background:#fff;
-  }
-  thead th{
-    background:var(--muted);
-    padding:10px 8px;
-    border:1px solid var(--line);
-    text-align:center;
-    vertical-align:bottom;
-    font-size:0.95rem;
-  }
-  thead th input.stage{
-    width:100%;
-    border:none;
-    background:transparent;
-    text-align:center;
-    font-weight:700;
-    color:#111;
-  }
-  tbody th{
-    background:var(--ink);
-    color:#fff;
-    width:180px;
-    padding:10px;
-    text-align:center;
-    border:1px solid var(--line);
-    position:sticky;
-    left:0;
-  }
-  td{
-    border:1px solid var(--line);
-    vertical-align:top;
-    padding:0;
-  }
-  .cell{
-    min-height:110px;
-    padding:8px 10px;
-  }
-  .cell textarea{
-    width:100%;
-    height:110px;
-    resize:vertical;
-    border:none;
-    padding:0;
-    font:inherit;
-    line-height:1.3;
-    background:#fff;
-  }
-  .cell textarea:focus{ outline:2px solid #e9d6d3; }
-  .row-help{
-    font-size:.82rem; color:#777; border-top:1px dashed #e3e3e3; padding:6px 0 0; margin-top:6px;
-  }
-  .legend{
-    background:#fff7f6; border:1px solid #f0d5d1; padding:10px 12px; border-radius:10px; margin:12px 0 18px;
-  }
-  .flex{
-    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-  }
-  .small{ font-size:.9rem; color:#666;}
-  .footer-note{ font-size:.8rem; color:#666; margin-top:24px;}
-  @media print{
-    .bar, .legend, .hint, .footer-note { display:none; }
-    body{ margin:0; }
-    table{ page-break-inside:auto; }
-    tr{ page-break-inside:avoid; page-break-after:auto; }
-    thead{ display:table-header-group; }
+  textarea{min-height:96px;resize:vertical}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:12px}
+  .small{font-size:13px;color:#666}
+  /* Journey table */
+  table{border-collapse:collapse;width:100%;table-layout:fixed}
+  thead th{position:sticky;top:0;background:#fff;z-index:1}
+  th, td{border:1px solid var(--line);vertical-align:top}
+  th.stage-head{padding:8px}
+  .row-head{width:160px;background:var(--rmit-blue);color:#fff;text-align:center;font-weight:600}
+  .stage-num{display:block;font-size:12px;color:#666}
+  .stage-name{width:100%;text-align:center;border:1px solid #cfcfcf;border-radius:6px;padding:8px}
+  .cell{padding:8px}
+  .cell .prompt{font-size:12px;color:#555;margin:0 0 6px 0}
+  .feel-wrap{display:flex;gap:8px;align-items:center}
+  .emo{font-size:20px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin:6px 0 16px 0}
+  .brand{display:flex;align-items:center;gap:10px}
+  .pill{background:var(--rmit-grey);border:1px solid var(--line);padding:8px;border-radius:8px}
+  .footer{margin-top:24px;font-size:12px;color:#666}
+  @media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+    .row-head{width:120px}
   }
 </style>
 </head>
 <body>
-  <h1>Customer Journey Map</h1>
-  <div class="lede">
-    <strong>Instructions.</strong> Enter your ten journey stages across the top, then complete the eight sections per stage. Use short, evidence‑based bullet points. Tag evidence like <em>(INT‑01)</em>, <em>(SUR‑17)</em> or <em>(SEC‑03)</em>. When finished, click <em>Export to Word</em> for submission, or <em>Print/PDF</em> for a quick save.
-  </div>
-
-  <div class="legend">
-    <div class="flex">
-      <div><strong>Evidence tags:</strong> interviews <em>(INT‑01)</em>, surveys <em>(SUR‑##)</em>, secondary <em>(SEC‑##)</em>.</div>
-      <div class="small">No tag, no claim. Keep a legend in your appendix.</div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <h1>Customer Journey — 10‑stage mapping form</h1>
+      </div>
+      <div class="controls">
+        <button id="saveLocal" class="ghost" type="button">Save</button>
+        <button id="loadLocal" class="secondary" type="button">Load</button>
+        <button id="clearAll" class="ghost" type="button">Clear</button>
+        <button id="exportDoc" type="button">Export to Word</button>
+      </div>
     </div>
+
+    <div class="note">
+      Use your Week 4 persona as the customer lens for every stage. Add evidence tags like <strong>(INT‑01)</strong>, <strong>(SUR‑12)</strong> or <strong>(SEC‑03)</strong> in the boxes. No tag, no claim.
+    </div>
+
+    <!-- Project details -->
+    <div class="grid" aria-label="Project details">
+      <div class="card">
+        <label class="small">Course</label>
+        <input id="course" type="text" value="MKTG1485 CX Strategy" />
+      </div>
+      <div class="card">
+        <label class="small">Team or student name</label>
+        <input id="team" type="text" placeholder="e.g. Team 7 — Journey Ninjas" />
+      </div>
+      <div class="card">
+        <label class="small">Organisation or brand</label>
+        <input id="brand" type="text" placeholder="e.g. TAC" />
+      </div>
+      <div class="card">
+        <label class="small">Target persona</label>
+        <input id="persona" type="text" placeholder="e.g. Health‑conscious parent" />
+      </div>
+      <div class="card">
+        <label class="small">Date</label>
+        <input id="date" type="date" />
+      </div>
+      <div class="card pill">
+        <div class="small"><strong>Hint:</strong> keep stage names crisp. You can edit the ten headers below.</div>
+      </div>
+    </div>
+
+    <!-- Journey map -->
+    <h2 style="color:#ba372a;margin:22px 0 10px 0;">Journey map</h2>
+    <div class="small" style="margin-bottom:8px;">Ten stages across the top. Eight sections down the side. Every cell has a prompt to guide what to write.</div>
+
+    <div style="overflow:auto;border:1px solid var(--line);border-radius:12px;">
+      <table id="journeyTable">
+        <thead>
+          <tr>
+            <th class="row-head">Lanes</th>
+            <!-- Ten stage headers -->
+            <th class="stage-head">
+              <span class="stage-num">Stage 1</span>
+              <input class="stage-name" value="Awareness" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 2</span>
+              <input class="stage-name" value="Consider" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 3</span>
+              <input class="stage-name" value="Search & learn" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 4</span>
+              <input class="stage-name" value="Contact" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 5</span>
+              <input class="stage-name" value="Prepare" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 6</span>
+              <input class="stage-name" value="Submit/Lodge" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 7</span>
+              <input class="stage-name" value="Triage" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 8</span>
+              <input class="stage-name" value="Decision" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 9</span>
+              <input class="stage-name" value="Onboarding" />
+            </th>
+            <th class="stage-head">
+              <span class="stage-num">Stage 10</span>
+              <input class="stage-name" value="Aftercare" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Helper to render 8 rows x 10 cells with prompts -->
+          <!-- 1 Doing -->
+          <tr>
+            <td class="row-head">Doing</td>
+            <!-- ten cells -->
+          </tr>
+          <!-- 2 Thinking -->
+          <tr>
+            <td class="row-head">Thinking</td>
+          </tr>
+          <!-- 3 Feeling -->
+          <tr>
+            <td class="row-head">Feeling</td>
+          </tr>
+          <!-- 4 Needs/Goals -->
+          <tr>
+            <td class="row-head">Needs/Goals</td>
+          </tr>
+          <!-- 5 Touch Points -->
+          <tr>
+            <td class="row-head">Touch Points</td>
+          </tr>
+          <!-- 6 Pain Points -->
+          <tr>
+            <td class="row-head">Pain Points</td>
+          </tr>
+          <!-- 7 Insights/Opportunities -->
+          <tr>
+            <td class="row-head">Insights/Opportunities</td>
+          </tr>
+          <!-- 8 Moments of Truth -->
+          <tr>
+            <td class="row-head">Moments of Truth</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">© 2025 RMIT University · MKTG1485 CX Strategy</div>
   </div>
-
-  <div class="bar">
-    <label class="small">Journey title:&nbsp;<input id="journeyTitle" type="text" placeholder="e.g., TAC — Accident to Lodgement (Current State)" style="min-width:360px; padding:6px 8px; border:1px solid #ccc; border-radius:8px;" /></label>
-    <span class="spacer"></span>
-    <button class="primary" onclick="exportToWord()">Export to Word</button>
-    <button onclick="window.print()">Print / Save as PDF</button>
-    <button onclick="saveToBrowser()">Save (browser)</button>
-    <button onclick="loadFromBrowser()">Load</button>
-    <button onclick="clearAll()">Clear all</button>
-  </div>
-
-  <p class="hint"><strong>Tip.</strong> Use one to three concise bullets per cell. For <em>Feeling</em>, you can include emojis to show the emotional arc, for example 🙂 😕 😟 🙂.</p>
-
-  <div class="grid-note"><strong>Ten stages across the top.</strong> Rename each stage header. Suggested sequence if you need a starting point: Awareness, Help‑seeking, Information gathering, Eligibility check, Preparation, Lodgement, Verification, Decision, Activation, Aftercare. Replace with your own.</div>
-
-  <table id="journeyTable">
-    <thead>
-      <tr>
-        <th style="width:180px;">&nbsp;</th>
-        <!-- 10 stage headers -->
-        <th><input class="stage" value="Stage 1" /></th>
-        <th><input class="stage" value="Stage 2" /></th>
-        <th><input class="stage" value="Stage 3" /></th>
-        <th><input class="stage" value="Stage 4" /></th>
-        <th><input class="stage" value="Stage 5" /></th>
-        <th><input class="stage" value="Stage 6" /></th>
-        <th><input class="stage" value="Stage 7" /></th>
-        <th><input class="stage" value="Stage 8" /></th>
-        <th><input class="stage" value="Stage 9" /></th>
-        <th><input class="stage" value="Stage 10" /></th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Doing -->
-      <tr>
-        <th>Doing</th>
-        <td colspan="10" style="padding:0;">
-          <table style="width:100%; border-collapse:collapse;">
-            <tr>
-              <!-- 10 cells -->
-              <td><div class="cell"><textarea placeholder="Observed actions. Keep specific. Tag evidence (INT‑.. / SUR‑.. / SEC‑..)."></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-              <td><div class="cell"><textarea></textarea></div></td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <!-- Thinking -->
-      <tr>
-        <th>Thinking</th>
-        <td><div class="cell"><textarea placeholder="Direct inner speech helps. e.g., ‘Am I eligible?’ (INT‑03)"></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Feeling -->
-      <tr>
-        <th>Feeling</th>
-        <td><div class="cell"><textarea placeholder="Use an emotional cue: 🙂 😕 😟 😌 — and a short reason with tag."></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Needs/Goals -->
-      <tr>
-        <th>Needs/Goals</th>
-        <td><div class="cell"><textarea placeholder="What must be achieved at this stage? Keep it outcome‑focused."></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Touch Points -->
-      <tr>
-        <th>Touch Points</th>
-        <td><div class="cell"><textarea placeholder="Channels: web, email, SMS, phone, app, in‑person, third‑party…"></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Pain Points -->
-      <tr>
-        <th>Pain Points</th>
-        <td><div class="cell"><textarea placeholder="Friction or delays. Be specific and tag the source."></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Insights/Opportunities -->
-      <tr>
-        <th>Insights/Opportunities</th>
-        <td><div class="cell"><textarea placeholder="Write testable fixes traceable to a pain point or gap."></textarea><div class="row-help">Example: “Eligibility cue on discharge summary at Year 6 reading level (SEC‑04)”</div></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-      <!-- Moments of Truth -->
-      <tr>
-        <th>Moments of Truth</th>
-        <td><div class="cell"><textarea placeholder="High‑stakes interactions where impressions are formed."></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p class="footer-note">RMIT | MKTG1485 CX Strategy — Use RMIT Harvard referencing in your slide appendix where appropriate.</p>
 
 <script>
-  // Collect all inputs for save/load/export
-  function getState(){
-    const title = document.getElementById('journeyTitle').value || '';
-    const stages = Array.from(document.querySelectorAll('thead input.stage')).map(i=>i.value||'');
-    const cells = Array.from(document.querySelectorAll('tbody .cell textarea')).map(t=>t.value||'');
-    return { title, stages, cells, ts: Date.now() };
-  }
-  function setState(state){
-    if(!state) return;
-    document.getElementById('journeyTitle').value = state.title || '';
-    const stageInputs = document.querySelectorAll('thead input.stage');
-    (state.stages||[]).forEach((v,i)=>{ if(stageInputs[i]) stageInputs[i].value = v; });
-    const areas = document.querySelectorAll('tbody .cell textarea');
-    (state.cells||[]).forEach((v,i)=>{ if(areas[i]) areas[i].value = v; });
-  }
-  function saveToBrowser(){
-    const key = 'journey_10x8_v1';
-    localStorage.setItem(key, JSON.stringify(getState()));
-    alert('Saved to your browser.');
-  }
-  function loadFromBrowser(){
-    const key = 'journey_10x8_v1';
-    const raw = localStorage.getItem(key);
-    if(!raw){ alert('No saved version found.'); return; }
-    try { setState(JSON.parse(raw)); alert('Loaded from your browser.'); }
-    catch(e){ alert('Could not load saved data.'); }
-  }
-  function clearAll(){
-    if(!confirm('Clear all entries?')) return;
-    document.getElementById('journeyTitle').value='';
-    document.querySelectorAll('thead input.stage').forEach((i,idx)=> i.value = 'Stage ' + (idx+1));
-    document.querySelectorAll('tbody .cell textarea').forEach(t=> t.value='');
-  }
+/* ==== Config ==== */
+const COLS = 10;
+const ROWS = [
+  {key:'doing', label:'Doing', prompt:'What is the customer doing at this stage? Capture concrete actions. Add evidence tags e.g. (INT‑01).'},
+  {key:'thinking', label:'Thinking', prompt:'What is the customer thinking or deciding at this stage? Use short quotes if you have them.'},
+  {key:'feeling', label:'Feeling', prompt:'Pick an emoji for the emotional arc and add a note explaining the rise or fall. Base this on research.'},
+  {key:'needs', label:'Needs/Goals', prompt:'What are they trying to achieve here? Has the goal evolved from the prior stage?'},
+  {key:'touchpoints', label:'Touch Points', prompt:'Which channels or actors are involved? e.g. website, email, phone, hospital, police, family.'},
+  {key:'pains', label:'Pain Points', prompt:'What hurdles or issues occur here? Write one per line. Tag with evidence.'},
+  {key:'opps', label:'Insights/Opportunities', prompt:'What optimisation is suggested by your evidence? Write as a specific, testable action.'},
+  {key:'truth', label:'Moments of Truth', prompt:'Is this a make‑or‑break moment? State the outcome the customer must see to build trust.'}
+];
+const EMOJIS = ['😢','😟','😕','😐','🙂','😊','😌','😃','🤕','😡'];
 
-  // Export to a Word-compatible .doc using HTML MIME
-  function exportToWord(){
-    const { title } = getState();
-    const safeTitle = (title && title.trim()) ? title.trim() : 'Customer Journey Map';
-    // Clone the table and replace textareas with their values for clean output
-    const tableClone = document.getElementById('journeyTable').cloneNode(true);
-    // Replace inputs in header with plain text
-    tableClone.querySelectorAll('thead input.stage').forEach(input => {
-      const th = input.parentElement;
-      const txt = document.createElement('div');
-      txt.style.fontWeight='700';
-      txt.style.textAlign='center';
-      txt.textContent = input.value || '';
-      th.replaceChild(txt, input);
-    });
-    // Replace textareas with divs
-    tableClone.querySelectorAll('tbody .cell').forEach(cell => {
-      const ta = cell.querySelector('textarea');
-      if(ta){
-        const div = document.createElement('div');
-        div.style.whiteSpace='pre-wrap';
-        div.textContent = ta.value;
-        cell.replaceChild(div, ta);
+/* ==== Build table cells ==== */
+const table = document.getElementById('journeyTable');
+const tbody = table.querySelector('tbody');
+const bodyRows = [...tbody.querySelectorAll('tr')];
+
+function buildCell(rowKey, colIndex){
+  const td = document.createElement('td');
+  td.className = 'cell';
+  if(rowKey === 'feeling'){
+    const w = document.createElement('div'); w.className='feel-wrap';
+    const sel = document.createElement('select'); sel.className='emo';
+    EMOJIS.forEach(e=>{ const o=document.createElement('option'); o.textContent=e; sel.appendChild(o);});
+    const txt = document.createElement('textarea');
+    txt.placeholder = 'Why does the emotion rise or fall here? Add tags, e.g. (INT‑03).';
+    w.appendChild(sel); w.appendChild(txt);
+    td.appendChild(w);
+  } else {
+    const p = document.createElement('div'); p.className='prompt'; p.textContent = ROWS.find(r=>r.key===rowKey).prompt;
+    const ta = document.createElement('textarea'); ta.placeholder = ROWS.find(r=>r.key===rowKey).prompt;
+    td.appendChild(p); td.appendChild(ta);
+  }
+  return td;
+}
+
+ROWS.forEach((r, rIdx)=>{
+  const tr = bodyRows[rIdx];
+  for(let c=0;c<COLS;c++){
+    tr.appendChild(buildCell(r.key,c));
+  }
+});
+
+/* ==== Save/Load/Clear ==== */
+const KEY = 'mktg1485_journey_v1';
+function gather(){
+  const data = {
+    meta:{
+      course:document.getElementById('course').value,
+      team:document.getElementById('team').value,
+      brand:document.getElementById('brand').value,
+      persona:document.getElementById('persona').value,
+      date:document.getElementById('date').value,
+      stages:[...document.querySelectorAll('.stage-name')].map(i=>i.value)
+    },
+    rows:[]
+  };
+  ROWS.forEach((r, rIdx)=>{
+    const tr = bodyRows[rIdx];
+    const cells = [...tr.querySelectorAll('.cell')];
+    const rowVals = cells.map(td=>{
+      const feelSel = td.querySelector('select');
+      if(feelSel){
+        return {emoji:feelSel.value, note:td.querySelector('textarea').value};
       }
+      return {text:td.querySelector('textarea').value};
     });
+    data.rows.push({key:r.key, cells:rowVals});
+  });
+  return data;
+}
+function apply(data){
+  if(!data) return;
+  document.getElementById('course').value = data.meta.course||'';
+  document.getElementById('team').value = data.meta.team||'';
+  document.getElementById('brand').value = data.meta.brand||'';
+  document.getElementById('persona').value = data.meta.persona||'';
+  document.getElementById('date').value = data.meta.date||'';
+  const stageInputs = [...document.querySelectorAll('.stage-name')];
+  data.meta.stages?.forEach((v,i)=>{ if(stageInputs[i]) stageInputs[i].value = v; });
+  ROWS.forEach((r, rIdx)=>{
+    const tr = bodyRows[rIdx];
+    const cells = [...tr.querySelectorAll('.cell')];
+    data.rows?.[rIdx]?.cells?.forEach((val, cIdx)=>{
+      const td = cells[cIdx];
+      const sel = td.querySelector('select');
+      if(sel){ sel.value = val.emoji || sel.value; td.querySelector('textarea').value = val.note || ''; }
+      else { td.querySelector('textarea').value = val.text || ''; }
+    });
+  });
+}
+document.getElementById('saveLocal').onclick = ()=>{ localStorage.setItem(KEY, JSON.stringify(gather())); alert('Saved to this browser.'); };
+document.getElementById('loadLocal').onclick = ()=>{ const d = localStorage.getItem(KEY); if(d){ apply(JSON.parse(d)); } else { alert('No saved data found.'); } };
+document.getElementById('clearAll').onclick = ()=>{
+  if(!confirm('Clear all fields?')) return;
+  document.querySelectorAll('textarea').forEach(t=>t.value='');
+  document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+};
 
-    const docHTML = `
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>${escapeHtml(safeTitle)}</title>
+/* ==== Export to Word (.doc) ==== */
+function htmlEscape(s){return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+
+document.getElementById('exportDoc').onclick = ()=>{
+  const data = gather();
+  // Build a simple HTML document for Word
+  const head =
+`<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"><title>Journey Map</title>
 <style>
-  body{ font-family: Arial, Helvetica, sans-serif; }
-  h1{ color:#ba372a; font-size:20pt; margin:0 0 8pt; }
-  h2{ color:#ba372a; font-size:13pt; margin:12pt 0 6pt; }
-  table{ width:100%; border-collapse:collapse; }
-  th, td{ border:1pt solid #cccccc; vertical-align:top; }
-  thead th{ background:#f6f6f6; text-align:center; padding:6pt; }
-  tbody th{ background:#0d1b4c; color:#ffffff; text-align:center; padding:6pt; width:150pt; }
-  td{ padding:6pt; }
-</style>
-</head>
-<body>
-  <h1>${escapeHtml(safeTitle)}</h1>
-  ${tableClone.outerHTML}
-  <p style="font-size:9pt;color:#666;margin-top:12pt;">Generated from the Journey 10×8 template.</p>
-</body>
-</html>`;
+  body{font-family:Segoe UI,Arial,sans-serif;color:#1f2937}
+  h2{color:${getComputedStyle(document.documentElement).getPropertyValue('--rmit-red')||'#ba372a'}}
+  table{border-collapse:collapse;width:100%}
+  th,td{border:1px solid #d0d0d0;vertical-align:top}
+  .row{background:${getComputedStyle(document.documentElement).getPropertyValue('--rmit-blue')||'#0d1b4c'};color:#fff}
+  .stage{background:#fff}
+  .cell{padding:8px}
+  .tag{color:#666;font-size:12px}
+</style></head><body>`;
 
-    const blob = new Blob(['\ufeff', docHTML], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = safeTitle.replace(/[^\w\-]+/g,'_') + '.doc';
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
-    a.remove();
-  }
+  const meta = `
+  <h2>Customer Journey — 10‑stage mapping</h2>
+  <p><strong>Course:</strong> ${htmlEscape(data.meta.course||'')}&nbsp;&nbsp; 
+     <strong>Team/Student:</strong> ${htmlEscape(data.meta.team||'')}&nbsp;&nbsp; 
+     <strong>Brand:</strong> ${htmlEscape(data.meta.brand||'')}&nbsp;&nbsp; 
+     <strong>Persona:</strong> ${htmlEscape(data.meta.persona||'')}&nbsp;&nbsp; 
+     <strong>Date:</strong> ${htmlEscape(data.meta.date||'')}</p>`;
 
-  function escapeHtml(s){
-    return s.replace(/[&<>"']/g, m => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[m]));
+  // Header row
+  let header = `<tr><th class="row">Lanes</th>`;
+  data.meta.stages.forEach((s,i)=>{ header += `<th class="stage"><div><div><strong>Stage ${i+1}</strong></div>${htmlEscape(s||'')}</div></th>`;});
+  header += `</tr>`;
+
+  // Body rows
+  function cellHTML(val){
+    if(val.text !== undefined){
+      return `<div class="cell">${htmlEscape(val.text||'')}</div>`;
+    } else {
+      const emo = htmlEscape(val.emoji||'');
+      const note = htmlEscape(val.note||'');
+      return `<div class="cell"><span style="font-size:18px">${emo}</span> &nbsp; ${note}</div>`;
+    }
   }
+  let rowsHtml = '';
+  ROWS.forEach((r, idx)=>{
+    rowsHtml += `<tr><td class="row"><strong>${r.label}</strong></td>`;
+    data.rows[idx].cells.forEach(c=>{ rowsHtml += `<td>${cellHTML(c)}</td>`;});
+    rowsHtml += `</tr>`;
+  });
+
+  const table = `<table>${header}${rowsHtml}</table>`;
+  const tail = `</body></html>`;
+  const doc = head + meta + table + tail;
+
+  const blob = new Blob(['\ufeff', doc], {type: 'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Customer_Journey.doc';
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  a.remove();
+};
 </script>
 </body>
 </html>
