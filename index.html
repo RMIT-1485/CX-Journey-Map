@@ -1,265 +1,339 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>GitHub Customer Journey</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{
-      --brand:#ba372a;        /* RMIT red (used earlier in your course pages) */
-      --ink:#1b1b1b;
-      --muted:#f6f6f6;
-      --header:#0d1b4c;       /* deep navy row labels */
-      --grid:#ecf0f1;
-    }
-    html,body{margin:0;padding:0;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px;}
-    h1{color:var(--brand);font-size:1.8rem;margin:0 0 8px;}
-    p.lead{background:var(--muted);padding:16px;border-radius:12px;margin:12px 0 24px;}
-    .meta{font-size:0.95rem;margin:0 0 24px;color:#444}
-    .legend{background:var(--muted);padding:12px;border-radius:10px;margin:16px 0;}
-    .legend strong{color:var(--brand);}
-    table{width:100%;border-collapse:collapse;font-size:0.95rem;}
-    caption{caption-side:top;text-align:left;font-weight:700;color:var(--brand);margin:18px 0 8px;}
-    thead th{background:var(--muted);border-bottom:2px solid var(--grid);padding:10px;vertical-align:bottom;text-align:center;}
-    thead th:first-child{text-align:left;}
-    tbody th{background:var(--header);color:#fff;position:sticky;left:0;}
-    td,th{border-bottom:1px solid var(--grid);padding:10px;vertical-align:top;}
-    ul{margin:0 0 0 18px;padding:0;}
-    .hint{font-size:0.85rem;color:#555;}
-    .rowdesc{font-size:0.9rem;color:#fff;opacity:0.9;font-weight:400;margin-top:4px;}
-    .pill{display:inline-block;font-size:0.8rem;background:#fff;border:1px solid var(--grid);padding:2px 6px;border-radius:999px;margin-right:6px;}
-    .note{font-size:0.85rem;color:#555;margin-top:6px;}
-    .footer{font-size:12px;color:#666;margin-top:24px}
-    /* simple responsive table: allow horizontal scroll on small screens */
-    .table-scroll{overflow:auto;border:1px solid var(--grid);border-radius:12px;}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Customer Journey Map – 10 x 8 Template</title>
+<style>
+  :root{
+    --brand:#ba372a;
+    --ink:#0d1b4c;
+    --muted:#f6f6f6;
+    --line:#e6e6e6;
+  }
+  body{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    margin: 24px;
+    color:#222;
+    line-height:1.35;
+  }
+  h1,h2,h3{ color: var(--brand); margin:0 0 8px; }
+  .lede{ background:var(--muted); padding:16px; border-radius:12px; margin: 12px 0 20px;}
+  .bar{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:8px 0 18px;}
+  .bar .spacer{ flex:1; }
+  button{
+    border:1px solid var(--brand);
+    background:#fff;
+    color:var(--brand);
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.primary{ background:var(--brand); color:#fff; border-color:var(--brand); }
+  button:disabled{ opacity:.6; cursor:not-allowed; }
+  .hint{ font-size:.92rem; color:#555; margin:8px 0 16px;}
+  .grid-note{ font-size:.9rem; color:#444; margin:6px 0 12px;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    background:#fff;
+  }
+  thead th{
+    background:var(--muted);
+    padding:10px 8px;
+    border:1px solid var(--line);
+    text-align:center;
+    vertical-align:bottom;
+    font-size:0.95rem;
+  }
+  thead th input.stage{
+    width:100%;
+    border:none;
+    background:transparent;
+    text-align:center;
+    font-weight:700;
+    color:#111;
+  }
+  tbody th{
+    background:var(--ink);
+    color:#fff;
+    width:180px;
+    padding:10px;
+    text-align:center;
+    border:1px solid var(--line);
+    position:sticky;
+    left:0;
+  }
+  td{
+    border:1px solid var(--line);
+    vertical-align:top;
+    padding:0;
+  }
+  .cell{
+    min-height:110px;
+    padding:8px 10px;
+  }
+  .cell textarea{
+    width:100%;
+    height:110px;
+    resize:vertical;
+    border:none;
+    padding:0;
+    font:inherit;
+    line-height:1.3;
+    background:#fff;
+  }
+  .cell textarea:focus{ outline:2px solid #e9d6d3; }
+  .row-help{
+    font-size:.82rem; color:#777; border-top:1px dashed #e3e3e3; padding:6px 0 0; margin-top:6px;
+  }
+  .legend{
+    background:#fff7f6; border:1px solid #f0d5d1; padding:10px 12px; border-radius:10px; margin:12px 0 18px;
+  }
+  .flex{
+    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  }
+  .small{ font-size:.9rem; color:#666;}
+  .footer-note{ font-size:.8rem; color:#666; margin-top:24px;}
+  @media print{
+    .bar, .legend, .hint, .footer-note { display:none; }
+    body{ margin:0; }
+    table{ page-break-inside:auto; }
+    tr{ page-break-inside:avoid; page-break-after:auto; }
+    thead{ display:table-header-group; }
+  }
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <h1>GitHub Customer Journey</h1>
-    <p class="lead"><strong>Purpose.</strong> Map the end‑to‑end GitHub experience with ten sequential stages across the top and eight evidence rows down the side. Every entry should be short, specific, and traceable to research. Add evidence tags in brackets, for example <span class="pill">INT‑03</span> <span class="pill">SUR‑12</span> <span class="pill">SEC‑04</span>. No tag, no claim.</p>
+  <h1>Customer Journey Map</h1>
+  <div class="lede">
+    <strong>Instructions.</strong> Enter your ten journey stages across the top, then complete the eight sections per stage. Use short, evidence‑based bullet points. Tag evidence like <em>(INT‑01)</em>, <em>(SUR‑17)</em> or <em>(SEC‑03)</em>. When finished, click <em>Export to Word</em> for submission, or <em>Print/PDF</em> for a quick save.
+  </div>
 
-    <section class="meta">
-      <strong>How to use.</strong> Rename the ten stage headers to match your journey. Populate each cell with bullets. Keep one idea per bullet. If you are plotting an emotional arc in “Feeling”, describe it here and draw the line separately in your slide or fig.
-      <div class="legend"><strong>Evidence tags:</strong> INT = interview, OBS = observation, SUR = survey, SEC = secondary. Keep a legend in your appendix with dates and context.</div>
-    </section>
-
-    <div class="table-scroll" role="region" aria-label="Customer Journey table" tabindex="0">
-      <table aria-describedby="journey-desc">
-        <caption id="journey-desc">Ten‑stage journey with eight evidence rows</caption>
-        <thead>
-          <tr>
-            <th scope="col" style="text-align:left;">&nbsp;</th>
-            <!-- Rename these stage labels to your actual GitHub journey phases -->
-            <th scope="col">1. Discover</th>
-            <th scope="col">2. Evaluate</th>
-            <th scope="col">3. Sign up</th>
-            <th scope="col">4. Onboard</th>
-            <th scope="col">5. Create repo</th>
-            <th scope="col">6. Collaborate</th>
-            <th scope="col">7. Integrate CI</th>
-            <th scope="col">8. Secure</th>
-            <th scope="col">9. Scale</th>
-            <th scope="col">10. Renew/Advocate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- DOING -->
-          <tr>
-            <th scope="row">
-              Doing
-              <div class="rowdesc">What customers are doing at each stage.</div>
-            </th>
-            <td>
-              <ul>
-                <li>Reads docs, compares GitHub with alternatives <span class="pill">SEC‑01</span></li>
-                <li>Checks pricing, limits and terms <span class="pill">SEC‑02</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Trials public repos, reviews issues and pull requests <span class="pill">OBS‑01</span></li>
-                <li>Seeks peer opinions on forums <span class="pill">SEC‑03</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Creates account, verifies email, sets 2FA <span class="pill">OBS‑02</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Completes onboarding checklist, sets profile and SSH keys <span class="pill">OBS‑03</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Initialises repo, pushes first commit, sets README <span class="pill">OBS‑04</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Creates branches, opens PRs, reviews code <span class="pill">OBS‑05</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Enables Actions, adds workflow YAML, fixes failing jobs <span class="pill">OBS‑06</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Sets branch protection, secret scanning, Dependabot <span class="pill">OBS‑07</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Creates org policies, SSO, teams and permissions <span class="pill">OBS‑08</span></li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Reviews usage, renews seats, shares case study <span class="pill">SUR‑05</span></li>
-              </ul>
-            </td>
-          </tr>
-
-          <!-- THINKING -->
-          <tr>
-            <th scope="row">
-              Thinking
-              <div class="rowdesc">What customers think at each stage.</div>
-            </th>
-            <td>“Will GitHub fit our workflow and compliance needs” <span class="pill">INT‑01</span></td>
-            <td>“How steep is the learning curve for the team” <span class="pill">INT‑02</span></td>
-            <td>“Account security looks strict. What is mandatory” <span class="pill">INT‑03</span></td>
-            <td>“Where do I start to be productive fast” <span class="pill">INT‑04</span></td>
-            <td>“Which repo structure suits our project” <span class="pill">INT‑05</span></td>
-            <td>“How do we keep reviews fast without losing quality” <span class="pill">INT‑06</span></td>
-            <td>“Which CI examples match our stack” <span class="pill">INT‑07</span></td>
-            <td>“What is the minimum security baseline we must meet” <span class="pill">INT‑08</span></td>
-            <td>“How do we avoid permission sprawl as we grow” <span class="pill">INT‑09</span></td>
-            <td>“Is the value clear for renewal” <span class="pill">INT‑10</span></td>
-          </tr>
-
-          <!-- FEELING -->
-          <tr>
-            <th scope="row">
-              Feeling
-              <div class="rowdesc">Describe the emotional arc here. Draw the line in your slide.</div>
-            </th>
-            <td>Curious</td>
-            <td>Hopeful</td>
-            <td>Cautious</td>
-            <td>Reassured</td>
-            <td>Confident</td>
-            <td>Engaged</td>
-            <td>Challenged</td>
-            <td>Responsible</td>
-            <td>In control</td>
-            <td>Advocating</td>
-          </tr>
-
-          <!-- NEEDS / GOALS -->
-          <tr>
-            <th scope="row">
-              Needs/Goals
-              <div class="rowdesc">What they are trying to achieve and how that evolves.</div>
-            </th>
-            <td>Understand fit, pricing and constraints <span class="pill">SEC‑02</span></td>
-            <td>Validate capabilities with proof points <span class="pill">SEC‑03</span></td>
-            <td>Secure account creation without friction <span class="pill">OBS‑02</span></td>
-            <td>Reach first value quickly <span class="pill">SUR‑02</span></td>
-            <td>Ship an initial version confidently <span class="pill">OBS‑04</span></td>
-            <td>Maintain flow and quality in reviews <span class="pill">SUR‑04</span></td>
-            <td>Automate build and test reliably <span class="pill">OBS‑06</span></td>
-            <td>Meet security baseline with clarity <span class="pill">SEC‑04</span></td>
-            <td>Scale governance with minimal admin <span class="pill">SUR‑05</span></td>
-            <td>See measurable value for renewal <span class="pill">SUR‑06</span></td>
-          </tr>
-
-          <!-- TOUCH POINTS -->
-          <tr>
-            <th scope="row">
-              Touch Points
-              <div class="rowdesc">Channels where customers and GitHub interact.</div>
-            </th>
-            <td>Docs, website, community posts</td>
-            <td>Docs, tutorials, sample repos</td>
-            <td>Signup form, email, 2FA, support</td>
-            <td>Onboarding checklist, CLI, SSH setup</td>
-            <td>Web UI, CLI, README, templates</td>
-            <td>PR UI, code review tools, notifications</td>
-            <td>GitHub Actions, Marketplace, logs</td>
-            <td>Security centre, policy settings, alerts</td>
-            <td>Org settings, teams, SSO, audit logs</td>
-            <td>Billing, usage reports, success team</td>
-          </tr>
-
-          <!-- PAIN POINTS -->
-          <tr>
-            <th scope="row">
-              Pain Points
-              <div class="rowdesc">Hurdles or issues to map at each stage.</div>
-            </th>
-            <td>Feature fit not obvious <span class="pill">INT‑01</span></td>
-            <td>Overwhelming documentation <span class="pill">SUR‑01</span></td>
-            <td>2FA setup confusion <span class="pill">OBS‑02</span></td>
-            <td>Key and permissions setup unclear <span class="pill">INT‑04</span></td>
-            <td>Repo standards inconsistent <span class="pill">OBS‑04</span></td>
-            <td>Slow or unclear review norms <span class="pill">SUR‑04</span></td>
-            <td>CI templates hard to adapt <span class="pill">OBS‑06</span></td>
-            <td>Security settings fragmented <span class="pill">INT‑08</span></td>
-            <td>Role design and access sprawl <span class="pill">INT‑09</span></td>
-            <td>Hard to evidence ROI <span class="pill">SUR‑06</span></td>
-          </tr>
-
-          <!-- INSIGHTS / OPPORTUNITIES -->
-          <tr>
-            <th scope="row">
-              Insights/Opportunities
-              <div class="rowdesc">How to optimise the experience based on evidence.</div>
-            </th>
-            <td>Short “Who is GitHub for” product fit cues on pricing page <span class="pill">SEC‑02</span></td>
-            <td>Curated “first 60 minutes” learning path <span class="pill">SUR‑01</span></td>
-            <td>Inline 2FA micro‑copy and fallback options <span class="pill">OBS‑02</span></td>
-            <td>SSH and PAT quick‑start tiles with checks <span class="pill">INT‑04</span></td>
-            <td>Starter repo template with CODEOWNERS <span class="pill">OBS‑04</span></td>
-            <td>Review SLAs and PR templates by team type <span class="pill">SUR‑04</span></td>
-            <td>Framework‑specific CI examples and wizards <span class="pill">OBS‑06</span></td>
-            <td>Security baseline presets and one‑click enable <span class="pill">INT‑08</span></td>
-            <td>Role blueprints and least‑privilege guardrails <span class="pill">INT‑09</span></td>
-            <td>Value dashboard linking usage to outcomes <span class="pill">SUR‑06</span></td>
-          </tr>
-
-          <!-- MOMENTS OF TRUTH -->
-          <tr>
-            <th scope="row">
-              Moments of Truth
-              <div class="rowdesc">High‑emotion interactions that set the impression.</div>
-            </th>
-            <td>First credible proof GitHub fits the need</td>
-            <td>Hands‑on confirmation during evaluation</td>
-            <td>Secure account creation feels smooth</td>
-            <td>First time to value achieved quickly</td>
-            <td>Repo structure and standards feel solid</td>
-            <td>Code review feels constructive and fast</td>
-            <td>CI passes reliably and adds confidence</td>
-            <td>Security alerts feel useful not noisy</td>
-            <td>Governance scales without blocking work</td>
-            <td>Stakeholders see clear, reportable value</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="legend">
+    <div class="flex">
+      <div><strong>Evidence tags:</strong> interviews <em>(INT‑01)</em>, surveys <em>(SUR‑##)</em>, secondary <em>(SEC‑##)</em>.</div>
+      <div class="small">No tag, no claim. Keep a legend in your appendix.</div>
     </div>
+  </div>
 
-    <section class="note">
-      <p><strong>Feeling row and emotional arc.</strong> Summarise the emotion per stage in the table and draw the arc line separately in your deck or a journey app such as TheyDo. Ensure dips align to mapped pain points and handovers.</p>
-      <p><strong>Traceability.</strong> Every bullet should carry an evidence tag. If you cannot tag it, re‑word or remove it.</p>
-    </section>
+  <div class="bar">
+    <label class="small">Journey title:&nbsp;<input id="journeyTitle" type="text" placeholder="e.g., TAC — Accident to Lodgement (Current State)" style="min-width:360px; padding:6px 8px; border:1px solid #ccc; border-radius:8px;" /></label>
+    <span class="spacer"></span>
+    <button class="primary" onclick="exportToWord()">Export to Word</button>
+    <button onclick="window.print()">Print / Save as PDF</button>
+    <button onclick="saveToBrowser()">Save (browser)</button>
+    <button onclick="loadFromBrowser()">Load</button>
+    <button onclick="clearAll()">Clear all</button>
+  </div>
 
-    <footer class="footer">© 2025 GitHub Customer Journey Template</footer>
-  </main>
+  <p class="hint"><strong>Tip.</strong> Use one to three concise bullets per cell. For <em>Feeling</em>, you can include emojis to show the emotional arc, for example 🙂 😕 😟 🙂.</p>
+
+  <div class="grid-note"><strong>Ten stages across the top.</strong> Rename each stage header. Suggested sequence if you need a starting point: Awareness, Help‑seeking, Information gathering, Eligibility check, Preparation, Lodgement, Verification, Decision, Activation, Aftercare. Replace with your own.</div>
+
+  <table id="journeyTable">
+    <thead>
+      <tr>
+        <th style="width:180px;">&nbsp;</th>
+        <!-- 10 stage headers -->
+        <th><input class="stage" value="Stage 1" /></th>
+        <th><input class="stage" value="Stage 2" /></th>
+        <th><input class="stage" value="Stage 3" /></th>
+        <th><input class="stage" value="Stage 4" /></th>
+        <th><input class="stage" value="Stage 5" /></th>
+        <th><input class="stage" value="Stage 6" /></th>
+        <th><input class="stage" value="Stage 7" /></th>
+        <th><input class="stage" value="Stage 8" /></th>
+        <th><input class="stage" value="Stage 9" /></th>
+        <th><input class="stage" value="Stage 10" /></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Doing -->
+      <tr>
+        <th>Doing</th>
+        <td colspan="10" style="padding:0;">
+          <table style="width:100%; border-collapse:collapse;">
+            <tr>
+              <!-- 10 cells -->
+              <td><div class="cell"><textarea placeholder="Observed actions. Keep specific. Tag evidence (INT‑.. / SUR‑.. / SEC‑..)."></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+              <td><div class="cell"><textarea></textarea></div></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Thinking -->
+      <tr>
+        <th>Thinking</th>
+        <td><div class="cell"><textarea placeholder="Direct inner speech helps. e.g., ‘Am I eligible?’ (INT‑03)"></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Feeling -->
+      <tr>
+        <th>Feeling</th>
+        <td><div class="cell"><textarea placeholder="Use an emotional cue: 🙂 😕 😟 😌 — and a short reason with tag."></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Needs/Goals -->
+      <tr>
+        <th>Needs/Goals</th>
+        <td><div class="cell"><textarea placeholder="What must be achieved at this stage? Keep it outcome‑focused."></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Touch Points -->
+      <tr>
+        <th>Touch Points</th>
+        <td><div class="cell"><textarea placeholder="Channels: web, email, SMS, phone, app, in‑person, third‑party…"></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Pain Points -->
+      <tr>
+        <th>Pain Points</th>
+        <td><div class="cell"><textarea placeholder="Friction or delays. Be specific and tag the source."></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Insights/Opportunities -->
+      <tr>
+        <th>Insights/Opportunities</th>
+        <td><div class="cell"><textarea placeholder="Write testable fixes traceable to a pain point or gap."></textarea><div class="row-help">Example: “Eligibility cue on discharge summary at Year 6 reading level (SEC‑04)”</div></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+      <!-- Moments of Truth -->
+      <tr>
+        <th>Moments of Truth</th>
+        <td><div class="cell"><textarea placeholder="High‑stakes interactions where impressions are formed."></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+        <td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td><td><div class="cell"><textarea></textarea></div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="footer-note">RMIT | MKTG1485 CX Strategy — Use RMIT Harvard referencing in your slide appendix where appropriate.</p>
+
+<script>
+  // Collect all inputs for save/load/export
+  function getState(){
+    const title = document.getElementById('journeyTitle').value || '';
+    const stages = Array.from(document.querySelectorAll('thead input.stage')).map(i=>i.value||'');
+    const cells = Array.from(document.querySelectorAll('tbody .cell textarea')).map(t=>t.value||'');
+    return { title, stages, cells, ts: Date.now() };
+  }
+  function setState(state){
+    if(!state) return;
+    document.getElementById('journeyTitle').value = state.title || '';
+    const stageInputs = document.querySelectorAll('thead input.stage');
+    (state.stages||[]).forEach((v,i)=>{ if(stageInputs[i]) stageInputs[i].value = v; });
+    const areas = document.querySelectorAll('tbody .cell textarea');
+    (state.cells||[]).forEach((v,i)=>{ if(areas[i]) areas[i].value = v; });
+  }
+  function saveToBrowser(){
+    const key = 'journey_10x8_v1';
+    localStorage.setItem(key, JSON.stringify(getState()));
+    alert('Saved to your browser.');
+  }
+  function loadFromBrowser(){
+    const key = 'journey_10x8_v1';
+    const raw = localStorage.getItem(key);
+    if(!raw){ alert('No saved version found.'); return; }
+    try { setState(JSON.parse(raw)); alert('Loaded from your browser.'); }
+    catch(e){ alert('Could not load saved data.'); }
+  }
+  function clearAll(){
+    if(!confirm('Clear all entries?')) return;
+    document.getElementById('journeyTitle').value='';
+    document.querySelectorAll('thead input.stage').forEach((i,idx)=> i.value = 'Stage ' + (idx+1));
+    document.querySelectorAll('tbody .cell textarea').forEach(t=> t.value='');
+  }
+
+  // Export to a Word-compatible .doc using HTML MIME
+  function exportToWord(){
+    const { title } = getState();
+    const safeTitle = (title && title.trim()) ? title.trim() : 'Customer Journey Map';
+    // Clone the table and replace textareas with their values for clean output
+    const tableClone = document.getElementById('journeyTable').cloneNode(true);
+    // Replace inputs in header with plain text
+    tableClone.querySelectorAll('thead input.stage').forEach(input => {
+      const th = input.parentElement;
+      const txt = document.createElement('div');
+      txt.style.fontWeight='700';
+      txt.style.textAlign='center';
+      txt.textContent = input.value || '';
+      th.replaceChild(txt, input);
+    });
+    // Replace textareas with divs
+    tableClone.querySelectorAll('tbody .cell').forEach(cell => {
+      const ta = cell.querySelector('textarea');
+      if(ta){
+        const div = document.createElement('div');
+        div.style.whiteSpace='pre-wrap';
+        div.textContent = ta.value;
+        cell.replaceChild(div, ta);
+      }
+    });
+
+    const docHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml(safeTitle)}</title>
+<style>
+  body{ font-family: Arial, Helvetica, sans-serif; }
+  h1{ color:#ba372a; font-size:20pt; margin:0 0 8pt; }
+  h2{ color:#ba372a; font-size:13pt; margin:12pt 0 6pt; }
+  table{ width:100%; border-collapse:collapse; }
+  th, td{ border:1pt solid #cccccc; vertical-align:top; }
+  thead th{ background:#f6f6f6; text-align:center; padding:6pt; }
+  tbody th{ background:#0d1b4c; color:#ffffff; text-align:center; padding:6pt; width:150pt; }
+  td{ padding:6pt; }
+</style>
+</head>
+<body>
+  <h1>${escapeHtml(safeTitle)}</h1>
+  ${tableClone.outerHTML}
+  <p style="font-size:9pt;color:#666;margin-top:12pt;">Generated from the Journey 10×8 template.</p>
+</body>
+</html>`;
+
+    const blob = new Blob(['\ufeff', docHTML], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = safeTitle.replace(/[^\w\-]+/g,'_') + '.doc';
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(url);
+    a.remove();
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+</script>
 </body>
 </html>
