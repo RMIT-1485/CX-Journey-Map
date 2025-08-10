@@ -70,6 +70,21 @@
       border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;outline:none;background:#fff;
     }
     .cell textarea:focus{border-color:var(--rmit-blue);box-shadow:0 0 0 2px rgba(13,27,76,.08)}
+
+    /* Feeling slider */
+    .feel-wrap{display:flex;flex-direction:column;gap:6px}
+    .feel-top{display:flex;align-items:center;gap:8px}
+    .emoji{font-size:18px;line-height:1}
+    .feel-range{flex:1;appearance:none;height:6px;background:var(--line);border-radius:6px;outline:none}
+    .feel-range::-webkit-slider-thumb{
+      -webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;
+      background:var(--rmit-red);cursor:pointer;border:0;box-shadow:0 0 0 2px rgba(199,31,35,.2);
+    }
+    .feel-range::-moz-range-thumb{
+      width:16px;height:16px;border-radius:50%;background:var(--rmit-red);border:0;cursor:pointer;
+    }
+    .feel-note{width:100%;min-height:72px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px;resize:vertical}
+    .hint{font-size:11px;color:var(--muted)}
     /* Evidence tags */
     .evidence{
       margin:18px 0 8px;padding:12px;border:1px dashed var(--line);border-radius:10px;background:var(--bg)
@@ -83,7 +98,6 @@
       border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px;min-height:34px;
     }
     /* Helpers */
-    .hint{font-size:12px;color:var(--muted)}
     .footer-note{margin-top:22px;font-size:12px;color:var(--muted)}
     @media (max-width:980px){
       .details{grid-template-columns:1fr}
@@ -154,8 +168,9 @@
       {
         key:'feeling',
         label:'Feeling',
-        helper:'This often includes an emotional arc across stages. If you draw it elsewhere, summarise the emotion in words here.',
-        placeholder:'Describe the emotion in words. Why does it rise or fall here?'
+        helper:'This often includes an emotional arc across stages. Use the slider to record intensity and add a short note if helpful.',
+        placeholder:'Add a short note explaining why the emotion rises or falls (optional).',
+        type:'feeling' // special rendering
       },
       {
         key:'needs',
@@ -189,6 +204,10 @@
       }
     ];
 
+    // Emoji mapping for the Feeling slider (1–5)
+    const EMOJI = {1:'😫', 2:'😟', 3:'😐', 4:'🙂', 5:'😄'};
+    const EMOJI_TEXT = {1:'Very low',2:'Low',3:'Neutral',4:'High',5:'Very high'};
+
     // ---------- State ----------
     let stageCount = DEFAULT_STAGES;
 
@@ -201,6 +220,49 @@
         grid.appendChild(inp);
       }
     })();
+
+    // ---------- Helpers ----------
+    function makeFeelingCell(){
+      const wrap = document.createElement('div');
+      wrap.className = 'feel-wrap';
+
+      const top = document.createElement('div');
+      top.className = 'feel-top';
+
+      const emoji = document.createElement('span');
+      emoji.className = 'emoji';
+      emoji.textContent = EMOJI[3];
+
+      const range = document.createElement('input');
+      range.type = 'range';
+      range.min = '1';
+      range.max = '5';
+      range.value = '3';
+      range.className = 'feel-range';
+      range.setAttribute('aria-label','Emotion level (1 very low – 5 very high)');
+
+      const label = document.createElement('span');
+      label.className = 'hint';
+      label.textContent = EMOJI_TEXT[3];
+
+      range.addEventListener('input', ()=>{
+        const v = +range.value;
+        emoji.textContent = EMOJI[v];
+        label.textContent = EMOJI_TEXT[v];
+      });
+
+      top.appendChild(emoji);
+      top.appendChild(range);
+      top.appendChild(label);
+
+      const note = document.createElement('textarea');
+      note.className = 'feel-note';
+      note.placeholder = 'Add a short note (optional)…';
+
+      wrap.appendChild(top);
+      wrap.appendChild(note);
+      return wrap;
+    }
 
     // ---------- Journey Table Rendering ----------
     const table = document.getElementById('journeyTable');
@@ -232,16 +294,21 @@
         for(let s=1;s<=stageCount;s++){
           const td = document.createElement('td');
           td.className='cell';
-          const ta = document.createElement('textarea');
-          ta.placeholder = lane.placeholder;
-          td.appendChild(ta);
+
+          if(lane.type === 'feeling'){
+            td.appendChild(makeFeelingCell());
+          }else{
+            const ta = document.createElement('textarea');
+            ta.placeholder = lane.placeholder;
+            td.appendChild(ta);
+          }
           tr.appendChild(td);
         }
         tbody.appendChild(tr);
       });
       table.appendChild(tbody);
 
-      // Counter + button states
+      // Counter + buttons
       document.getElementById('stageCounter').textContent = `Stages: ${stageCount} / ${MAX_STAGES}`;
       document.getElementById('addStageBtn').disabled = stageCount>=MAX_STAGES;
       document.getElementById('removeStageBtn').disabled = stageCount<=1;
@@ -268,15 +335,28 @@
       const persona = (document.getElementById('persona').value||'').trim();
       const date = document.getElementById('date').value || '';
 
+      // Clone the table and convert inputs to static content
       const clone = table.cloneNode(true);
-      // Make placeholders visible for empty cells
+
+      // Convert standard textareas
       clone.querySelectorAll('textarea').forEach(t=>{
         const v = t.value.trim();
-        const content = v ? v : `<em style="color:#777;">${t.placeholder}</em>`;
+        const content = v ? v : `<em style="color:#777;">${t.placeholder||'—'}</em>`;
         const div = document.createElement('div');
         div.style.minHeight='80px';
         div.innerHTML = content.replace(/\n/g,'<br>');
         t.parentElement.replaceChild(div,t);
+      });
+
+      // Convert feeling widgets
+      clone.querySelectorAll('.feel-wrap').forEach(w=>{
+        const v = +(w.querySelector('input[type="range"]')?.value || 3);
+        const note = w.querySelector('textarea')?.value?.trim();
+        const div = document.createElement('div');
+        const emoji = EMOJI[v] || '😐';
+        const label = EMOJI_TEXT[v] || 'Neutral';
+        div.innerHTML = `<strong>${emoji} ${label}</strong>${note ? '<br>'+note.replace(/\n/g,'<br>') : ''}`;
+        w.parentElement.replaceChild(div,w);
       });
 
       const evidence = Array.from(document.querySelectorAll('#tagGrid input'))
